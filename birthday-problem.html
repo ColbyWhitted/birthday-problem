@@ -1,0 +1,53 @@
+<html>
+<head>
+
+<style>
+*{
+	font-size: 20px;
+}
+</style>
+
+</head>
+<body>
+<div id="description">
+	<h1>
+		In this simulation guests are added to a guest list for an upcoming party. They have a random birthday between 1 and 366. Everytime a new guest is added to the guest list their birthday is checked against all other guests birthdays. As more guests are added it becomes increasingly more likely that the next guest will have a birthday that is the same as another guest. 
+	</h1>
+	<button onclick="theFunc()">Start Simulation</button>
+</div>
+<div id="container">
+
+
+</div>
+
+</body>
+
+
+
+<script>
+
+function theFunc(avg = false){
+
+
+
+	var allGuests = [];
+	var newGuest;
+	var container = document.getElementById("container");
+	var newGuest;
+	container.innerHTML = "";
+
+	for(var i = 0;i<100;i++){
+		var newGuest = Math.floor( (Math.random() * 366) );
+		allGuests.push(newGuest);
+		container.innerHTML += "<br /> Guest number " + i  + " has been added to party list and their birthday is: " + newGuest + "<hr />";
+		for(var i2 = 0;i2<allGuests.length;i2++){
+			if(newGuest === allGuests[i2] && i2 !== i){
+				container.innerHTML += "<br /><div style='background-color:green;color:white;padding:10px;'> Guest number "+ i +" has the same birthday as guest number " + i2 +". Birthdays of " + newGuest + "</div><hr />";
+			}
+		}
+	}
+}
+
+</script>
+
+</html>
