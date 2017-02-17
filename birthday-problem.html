@@ -5,6 +5,10 @@
 *{
 	font-size: 20px;
 }
+#description{
+	max-width: 800px;
+	margin: 0 auto;
+}
 </style>
 
 </head>
@@ -14,6 +18,7 @@
 		In this simulation guests are added to a guest list for an upcoming party. They have a random birthday between 1 and 366. Everytime a new guest is added to the guest list their birthday is checked against all other guests birthdays. As more guests are added it becomes increasingly more likely that the next guest will have a birthday that is the same as another guest. 
 	</h1>
 	<button onclick="theFunc()">Start Simulation</button>
+	<p>Or run the simulation like a thousand times and see what the average guest number is of the guest who has the first birthday collision. <br /> <button onclick="average()">Run simulation like a thousand times</button></p>
 </div>
 <div id="container">
 
@@ -26,28 +31,53 @@
 
 <script>
 
-function theFunc(avg = false){
-
-
+function theFunc(print = true){
 
 	var allGuests = [];
 	var newGuest;
 	var container = document.getElementById("container");
-	var newGuest;
-	container.innerHTML = "";
+	var birthdayCollision = 1;
 
-	for(var i = 0;i<100;i++){
+	if(print === true){
+		container.innerHTML = "";
+	}
+
+	for(var i = 0;i<366;i++){
 		var newGuest = Math.floor( (Math.random() * 366) );
+		birthdayCollision = (birthdayCollision * ((366-i)/366));
 		allGuests.push(newGuest);
-		container.innerHTML += "<br /> Guest number " + i  + " has been added to party list and their birthday is: " + newGuest + "<hr />";
+		if(print === true){
+			container.innerHTML += "<br /> Guest number " + i  + " has been added to party list and their birthday is: " + newGuest + " <span style='font-size:14px;margin-left:20px;background-color:#333;color:white;padding:3px;'>Chance of two guests having the same birthday: "+ (1 - birthdayCollision ) +"</span><hr />";
+		}
+
 		for(var i2 = 0;i2<allGuests.length;i2++){
 			if(newGuest === allGuests[i2] && i2 !== i){
-				container.innerHTML += "<br /><div style='background-color:green;color:white;padding:10px;'> Guest number "+ i +" has the same birthday as guest number " + i2 +". Birthdays of " + newGuest + "</div><hr />";
+				if(print === true){
+					container.innerHTML += "<br /><div style='background-color:green;color:white;padding:10px;'> Guest number "+ i +" has the same birthday as guest number " + i2 +". Birthdays of " + newGuest + "</div><hr />";
+				}
+				averageArray.push(i)
+				return;
 			}
 		}
 	}
 }
 
+function average(){
+	document.getElementById("container").innerHTML = "";
+	averageArray = [];
+	var iterator = 0;
+	while(iterator<1000){
+		theFunc(false);
+		iterator++;
+	}
+	var total = 0;
+	for(i=0;i<averageArray.length;i++){
+		total += averageArray[i];
+	}
+	var theAvg = total / averageArray.length;
+	document.getElementById("container").innerHTML =
+		"<br /><div style='background-color:green;color:white;padding:10px;'>After running like a thousand times the average guest at which a birthday collision occured was " + theAvg + "</div><hr />";
+}
 </script>
 
 </html>
